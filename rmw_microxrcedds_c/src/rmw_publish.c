@@ -87,9 +87,9 @@ rmw_publish(
           &custom_publisher->owner_node->context->session, custom_publisher->session_timeout);
         if (!written) {
           if (ret == 7) {
-            ret = 17;
-          } else {
             ret = 8;
+          } else {
+            ret = 9;
           }
           
         }
