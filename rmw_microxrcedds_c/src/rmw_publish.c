@@ -38,16 +38,16 @@ rmw_publish(
   rmw_ret_t ret = RMW_RET_OK;
   if (!publisher) {
     RMW_UROS_TRACE_MESSAGE("publisher pointer is null")
-    ret = RMW_RET_ERROR;
+    ret = 3;
   } else if (!ros_message) {
     RMW_UROS_TRACE_MESSAGE("ros_message pointer is null")
-    ret = RMW_RET_ERROR;
+    ret = 4;
   } else if (!is_uxrce_rmw_identifier_valid(publisher->implementation_identifier)) {
     RMW_UROS_TRACE_MESSAGE("publisher handle not from this implementation")
-    ret = RMW_RET_ERROR;
+    ret = 5;
   } else if (!publisher->data) {
     RMW_UROS_TRACE_MESSAGE("publisher imp is null");
-    ret = RMW_RET_ERROR;
+    ret = 6;
   } else {
     rmw_uxrce_publisher_t * custom_publisher = (rmw_uxrce_publisher_t *)publisher->data;
     const message_type_support_callbacks_t * functions = custom_publisher->type_support_callbacks;
@@ -86,7 +86,7 @@ rmw_publish(
     }
     if (!written) {
       RMW_UROS_TRACE_MESSAGE("error publishing message")
-      ret = RMW_RET_ERROR;
+      ret = 7;
     }
   }
   return ret;
