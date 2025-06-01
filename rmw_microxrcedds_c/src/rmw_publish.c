@@ -69,6 +69,9 @@ rmw_publish(
         topic_length, flush_session, custom_publisher))
     {
       written = functions->cdr_serialize(ros_message, &mb);
+      if (!written) {
+        ret = 7;
+      }
       if (custom_publisher->cs_cb_serialization) {
         custom_publisher->cs_cb_serialization(&mb);
       }
@@ -82,11 +85,19 @@ rmw_publish(
       } else {
         written &= uxr_run_session_until_confirm_delivery(
           &custom_publisher->owner_node->context->session, custom_publisher->session_timeout);
+        if (!written) {
+          if (ret == 7) {
+            ret = 17;
+          } else {
+            ret = 8;
+          }
+          
+        }
       }
     }
     if (!written) {
       RMW_UROS_TRACE_MESSAGE("error publishing message")
-      ret = 7;
+      //ret = 7;
     }
   }
   return ret;
