@@ -97,7 +97,7 @@ rmw_publish(
     }
     if (!written) {
       RMW_UROS_TRACE_MESSAGE("error publishing message")
-      //ret = 7;
+      ret = 1000;
     }
   }
   return ret;
