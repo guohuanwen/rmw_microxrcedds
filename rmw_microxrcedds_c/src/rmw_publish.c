@@ -70,7 +70,7 @@ rmw_publish(
     {
       written = functions->cdr_serialize(ros_message, &mb);
       if (!written) {
-        ret = 10;
+        ret = 2;
       }
       if (custom_publisher->cs_cb_serialization) {
         custom_publisher->cs_cb_serialization(&mb);
@@ -86,10 +86,10 @@ rmw_publish(
         written &= uxr_run_session_until_confirm_delivery(
           &custom_publisher->owner_node->context->session, custom_publisher->session_timeout);
         if (!written) {
-          if (ret == 10) {
-            ret = 100;
+          if (ret == 2) {
+            ret = 4;
           } else {
-            ret = 11;
+            ret = 6;
           }
           
         }
@@ -97,7 +97,7 @@ rmw_publish(
     }
     if (!written) {
       RMW_UROS_TRACE_MESSAGE("error publishing message")
-      ret = 1000;
+      ret = ret + 1;
     }
   }
   return ret;
